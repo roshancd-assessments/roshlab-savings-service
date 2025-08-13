@@ -55,6 +55,9 @@ dependencies {
     // Lombok for test sources
     testCompileOnly 'org.projectlombok:lombok:1.18.34'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    // Flyway for DB schema versioning
+    implementation 'org.flywaydb:flyway-core:9.22.1'
 }
 
 dependencyManagement {
