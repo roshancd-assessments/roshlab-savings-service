@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: savings
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/savings
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+logging:
+  level:
+    root: INFO
+    com.roshlab.savings: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/savings
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+logging:
+  level:
+    root: DEBUG
+    com.roshlab.savings: DEBUG

@@ -46,7 +46,15 @@ dependencies {
     // These are the new dependencies for Testcontainers
     testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'org.testcontainers:postgresql'
-    testImplementation 'org.testcontainers:junit-jupiter' // This integrates Testcontainers with JUnit 5
+    testImplementation 'org.testcontainers:junit-jupiter'
+
+    // Lombok (compile only + annotation processor)
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    // Lombok for test sources
+    testCompileOnly 'org.projectlombok:lombok:1.18.34'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
 }
 
 dependencyManagement {
@@ -57,4 +65,8 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+test {
+    systemProperty "spring.profiles.active", "test"
 }
