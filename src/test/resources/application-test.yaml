@@ -4,9 +4,9 @@ spring:
 
   datasource:
     # TODO: Testcontainers JDBC URL for PostgreSQL
-    url: jdbc:postgresql://localhost:5432/savings
-    username: postgres
-    password: postgres
+    url:
+    username:
+    password:
 
   jpa:
     hibernate:

@@ -22,42 +22,33 @@ ext {
 }
 
 dependencies {
+    // Spring Boot Starters
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
-    runtimeOnly 'io.micrometer:micrometer-registry-dynatrace'
+
+    // Database & Flyway
+    implementation 'org.flywaydb:flyway-core:9.22.1'
     runtimeOnly 'org.postgresql:postgresql'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
 
-dependencies {
-    // Other dependencies you have, e.g., Spring Boot starters
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.postgresql:postgresql'
-
-    // Test dependencies
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    // These are the new dependencies for Testcontainers
-    testImplementation 'org.testcontainers:testcontainers'
-    testImplementation 'org.testcontainers:postgresql'
-    testImplementation 'org.testcontainers:junit-jupiter'
+    // Micrometer
+    runtimeOnly 'io.micrometer:micrometer-registry-dynatrace'
 
     // Lombok (compile only + annotation processor)
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    // Lombok for test sources
     testCompileOnly 'org.projectlombok:lombok:1.18.34'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
 
-    // Flyway for DB schema versioning
-    implementation 'org.flywaydb:flyway-core:9.22.1'
+    // Test Dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 dependencyManagement {
@@ -66,10 +57,7 @@ dependencyManagement {
     }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
 test {
-    systemProperty "spring.profiles.active", "test"
+    useJUnitPlatform()
+    systemProperty 'spring.profiles.active', 'test'
 }
