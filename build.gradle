@@ -60,4 +60,11 @@ dependencyManagement {
 test {
     useJUnitPlatform()
     systemProperty 'spring.profiles.active', 'test'
+
+    testLogging {
+        // Events to be shown on the console
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
 }
+
