@@ -4,9 +4,8 @@ import com.roshlab.savings.entity.SavingsAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface SavingsAccountRepository extends JpaRepository<SavingsAccount, UUID> {
+public interface SavingsAccountRepository extends JpaRepository<SavingsAccount, Long> {
     long countByCustomerName(String customerName);
     List<SavingsAccount> findByCustomerName(String customerName);
 }

@@ -44,6 +44,11 @@ spring:
       hibernate:
         format_sql: true
 
+  docker:
+    compose:
+      file: docker-compose.dev.yml
+      lifecycle-management: start_and_stop
+
 logging:
   level:
     root: DEBUG
