@@ -1,6 +1,6 @@
 CREATE TABLE savings_account
 (
-    id                UUID PRIMARY KEY,
+    id                BIGSERIAL PRIMARY KEY,
     account_number    VARCHAR(32)                            NOT NULL UNIQUE,
     customer_name     VARCHAR(255)                           NOT NULL,
     account_nick_name VARCHAR(30),

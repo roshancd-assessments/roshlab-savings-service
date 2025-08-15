@@ -1,4 +1,4 @@
-package com.roshlab.savings;
+package com.roshlab.savings.repository;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -6,7 +6,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
-public abstract class AbstractSavingsApplicationTests {
+public abstract class AbstractSavingsApplicationTest {
 
     private static final PostgreSQLContainer<?> POSTGRES_CONTAINER;
 

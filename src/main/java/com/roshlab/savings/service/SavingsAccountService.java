@@ -1,14 +1,16 @@
 package com.roshlab.savings.service;
 
 import com.roshlab.savings.entity.SavingsAccount;
+import com.roshlab.savings.exception.MaxAccountsPerCustomerException;
 import com.roshlab.savings.repository.SavingsAccountRepository;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
+@Transactional
 public class SavingsAccountService {
 
     private final SavingsAccountRepository savingsAccountRepository;
@@ -17,33 +19,29 @@ public class SavingsAccountService {
         this.savingsAccountRepository = savingsAccountRepository;
     }
 
-    @Transactional
-    public SavingsAccount createAccount(String customerName, String accountNickName) {
-        // Business rule validation: maximum 5 accounts per customer
-        long count = savingsAccountRepository.countByCustomerName(customerName);
+    public SavingsAccount createAccount(@NotNull SavingsAccount savingsAccount) {
+        // Enforce business rule: limit each customer to a maximum of 5 savings accounts
+        long count = savingsAccountRepository.countByCustomerName(savingsAccount.getCustomerName());
         if (count >= 5) {
-            throw new IllegalStateException("Customer cannot have more than 5 accounts");
+            throw new MaxAccountsPerCustomerException("Customer cannot have more than 5 accounts");
         }
-
-        // Create account
-        SavingsAccount account = new SavingsAccount();
-        account.setCustomerName(customerName);
-        account.setAccountNickName(accountNickName);
-        account.setAccountNumber(generateAccountNumber());
-        return savingsAccountRepository.save(account);
+        // Store Savings Account
+        savingsAccount.setAccountNumber(generateAccountNumber());
+        return savingsAccountRepository.save(savingsAccount);
     }
 
-    public SavingsAccount getAccount(UUID id) {
+    public SavingsAccount getAccount(Long id) {
         return savingsAccountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Account not found"));
     }
 
-    public List<SavingsAccount> getAccountsByCustomer(String customerName) {
+    public List<SavingsAccount> getAccountsByCustomerName(String customerName) {
         return savingsAccountRepository.findByCustomerName(customerName);
     }
 
-    private String generateAccountNumber() {
+    private @NotNull String generateAccountNumber() {
         // Simple 12-digit numeric example
         return String.valueOf((long) (Math.random() * 1_000_000_000_000L));
     }
+
 }
 

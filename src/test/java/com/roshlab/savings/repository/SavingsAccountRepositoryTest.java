@@ -1,6 +1,5 @@
 package com.roshlab.savings.repository;
 
-import com.roshlab.savings.AbstractSavingsApplicationTests;
 import com.roshlab.savings.entity.SavingsAccount;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class SavingsAccountRepositoryTest extends AbstractSavingsApplicationTests {
+class SavingsAccountRepositoryTest extends AbstractSavingsApplicationTest {
 
     @Autowired
     private SavingsAccountRepository repository;
