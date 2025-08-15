@@ -35,14 +35,6 @@ public class SavingsAccount {
     public SavingsAccount() {
     }
 
-//    // Builder constructor for creating instances with required fields.
-//    @Builder
-//    public SavingsAccount(String accountNumber, String customerName, String accountNickName) {
-//        this.accountNumber = accountNumber;
-//        this.customerName = customerName;
-//        this.accountNickName = accountNickName;
-//    }
-
     // Builder constructor for creating instances with an ID. This is for testing purposes.
     @Builder(builderMethodName = "builderWithId")
     private SavingsAccount(Long id, String accountNumber, String customerName, String accountNickName, OffsetDateTime createdAt) {
