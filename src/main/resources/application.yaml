@@ -21,6 +21,14 @@ logging:
     root: INFO
     com.roshlab.savings: DEBUG
 
+# Nickname check feature
+feature:
+  nicknameCheck: true
+
+validation:
+  nickname:
+    file: nickname.txt
+
 ---
 spring:
   config:
@@ -55,3 +63,11 @@ logging:
     com.roshlab.savings: DEBUG
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+# Nickname check feature
+feature:
+  nicknameCheck: true
+
+validation:
+  nickname:
+    file: nickname.txt

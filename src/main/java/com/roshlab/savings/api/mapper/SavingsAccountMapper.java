@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 public interface SavingsAccountMapper {
 
     @Mapping(target = "accountNumber", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "id", ignore = true)
     SavingsAccount toDomain(SavingsAccountRequest request);
 
     SavingsAccountResponse toResponse(SavingsAccount account);

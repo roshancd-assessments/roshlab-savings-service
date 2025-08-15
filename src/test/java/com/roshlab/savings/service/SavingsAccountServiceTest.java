@@ -22,6 +22,9 @@ class SavingsAccountServiceTest {
     @Mock
     private SavingsAccountRepository savingsAccountRepository;
 
+    @Mock
+    private NickNameValidator nickNameValidator;
+
     @InjectMocks
     private SavingsAccountService savingsAccountService;
 
