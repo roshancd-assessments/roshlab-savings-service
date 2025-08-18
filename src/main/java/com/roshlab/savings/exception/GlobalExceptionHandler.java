@@ -14,8 +14,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
-    @ExceptionHandler(ProfanityException.class)
-    public ResponseEntity<String> handleProfanityException(@NotNull ProfanityException exception) {
+    @ExceptionHandler(OffensiveNicknameException.class)
+    public ResponseEntity<String> handleProfanityException(@NotNull OffensiveNicknameException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 }

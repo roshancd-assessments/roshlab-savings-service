@@ -32,7 +32,7 @@ jobs:
         run: npm install -g @apidevtools/swagger-cli
 
       - name: Validate OpenAPI Contract
-        run: swagger-cli validate src/main/resources/openapi.yaml
+        run: swagger-cli validate src/main/resources/static/openapi.yaml
 
       - name: Run Checkstyle for Static Analysis
         run: ./gradlew checkstyleMain
