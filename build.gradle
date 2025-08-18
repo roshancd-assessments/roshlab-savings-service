@@ -30,9 +30,6 @@ repositories {
     mavenCentral()
 }
 
-ext {
-    set('springCloudVersion', "2025.0.0")
-}
 
 dependencies {
     // Annotation Processors
@@ -44,20 +41,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 
     // Database & Flyway
-    implementation 'org.flywaydb:flyway-core:9.22.1'
-    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core:9.22.3'
+    implementation 'org.postgresql:postgresql'
 
     // Micrometer
     runtimeOnly 'io.micrometer:micrometer-registry-dynatrace'
 
-    // Lombok (compile only + annotation processor)
+    // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
-    testCompileOnly 'org.projectlombok:lombok:1.18.34'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
 
     // Test Dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -66,25 +60,24 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // Mapper to map DOT to Entity
+    // MapStruct
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-    // For Lombok support with MapStruct
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    // Lombok binding for MapStruct
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
-    // This enable spinning up DB on a docker container at dev time
+    // Development Tools
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
     // Swagger UI generation
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
-}
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
+    // DB Resilience
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+
+    // Resilience for Persistence
+    implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 
 test {
@@ -103,7 +96,7 @@ test {
 }
 
 openApiValidate {
-    inputSpec = "$rootDir/openapi.yaml".toString()
+    inputSpec = "src/main/resources/static/openapi.yaml".toString()
 }
 
 tasks.named('bootRun') {

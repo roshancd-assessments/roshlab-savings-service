@@ -1,6 +1,6 @@
 package com.roshlab.savings.service;
 
-import com.roshlab.savings.exception.ProfanityException;
+import com.roshlab.savings.exception.OffensiveNicknameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.Resource;
@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class NickNameValidatorTest {
 
-    private NickNameValidator validatorEnabled;
-    private NickNameValidator validatorDisabled;
+    private NickNameValidatorService validatorEnabled;
+    private NickNameValidatorService validatorDisabled;
 
     private static final String NICKNAME_WORDS_LIST = "fool\nidot\nterrible";
     private static final Resource NICKNAME_RESOURCE = new ByteArrayResource(NICKNAME_WORDS_LIST.getBytes());
@@ -23,11 +23,11 @@ class NickNameValidatorTest {
     @BeforeEach
     void setUp() throws IOException {
         // Instantiate the validator with the nickname check enabled
-        validatorEnabled = new NickNameValidator(true, NICKNAME_RESOURCE);
+        validatorEnabled = new NickNameValidatorService(true, NICKNAME_RESOURCE);
         validatorEnabled.loadNicknameWords();
 
         // Instantiate the validator with the nickname check disabled
-        validatorDisabled = new NickNameValidator(false, NICKNAME_RESOURCE);
+        validatorDisabled = new NickNameValidatorService(false, NICKNAME_RESOURCE);
         validatorDisabled.loadNicknameWords();
     }
 
@@ -40,7 +40,7 @@ class NickNameValidatorTest {
     @Test
     void validate_shouldThrowException_whenNicknameContainsInvalidAndCheckIsEnabled() {
         String invalidNickname = "AFoolAccount";
-        assertThrows(ProfanityException.class, () -> validatorEnabled.validate(invalidNickname));
+        assertThrows(OffensiveNicknameException.class, () -> validatorEnabled.validate(invalidNickname));
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.roshlab.savings.service;
 
-import com.roshlab.savings.exception.ProfanityException;
+import com.roshlab.savings.exception.OffensiveNicknameException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class NickNameValidator {
+public class NickNameValidatorService {
 
     private final boolean nicknameCheckEnabled;
     private final Resource nicknameFileResource;
     private Set<String> nicknameWords;
 
-    public NickNameValidator(@Value("${feature.nicknameCheck:false}") boolean nicknameCheckEnabled,
-                             @Value("classpath:${validation.nickname.file}") Resource nicknameFileResource) {
+    public NickNameValidatorService(@Value("${feature.nicknameCheck:false}") boolean nicknameCheckEnabled,
+                                    @Value("classpath:${validation.nickname.file}") Resource nicknameFileResource) {
         this.nicknameCheckEnabled = nicknameCheckEnabled;
         this.nicknameFileResource = nicknameFileResource;
         log.info("Nickname check enabled: {}", nicknameCheckEnabled);
@@ -63,7 +63,7 @@ public class NickNameValidator {
         for (String word : nicknameWords) {
             if (lowerCaseNickname.contains(word)) {
                 log.warn("nickname found in nickname: '{}'", nickname);
-                throw new ProfanityException("Nickname contains nickname.");
+                throw new OffensiveNicknameException("Nickname contains nickname.");
             }
         }
     }

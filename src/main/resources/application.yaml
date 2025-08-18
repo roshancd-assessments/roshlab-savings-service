@@ -6,15 +6,53 @@ spring:
     url: jdbc:postgresql://localhost:5432/savings
     username: postgres
     password: postgres
+    hikari:
+      connection-timeout: 1000 # Set connection timeout to 1 second
+      max-lifetime: 30000 # Set max lifetime for connections to 30 seconds
+      validation-timeout: 1000 # Set validation timeout to 1 second
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
 
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: true
 
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
+  # Caffeine Cache Configuration
+  cache:
+    type: caffeine
+
+# Resilience4j Circuit Breaker Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      createAccountCircuitBreaker:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5000
+      getAccountCircuitBreaker:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5000
+      accountsByCustomerNameCircuitBreaker:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5000
+  timelimiter:
+    instances:
+      getAccountTimeLimiter:
+        timeout-duration: 1s
+        cancel-running-future: true
+  retry:
+    instances:
+      getAccountRetry:
+        max-attempts: 3 # Number of retry attempts
+        wait-duration: 1s # Wait time between attempts
 
 logging:
   level:
@@ -29,8 +67,16 @@ validation:
   nickname:
     file: nickname.txt
 
+springdoc:
+  swagger-ui:
+    url: /openapi.yaml # Points to openapi.yaml static file under resources/static/
+    disable-swagger-default-url: true # Prevent loading the default, empty API docs.
+
 ---
 spring:
+  application:
+    name: savings
+
   config:
     activate:
       on-profile: dev
@@ -40,6 +86,10 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 1000 # Set connection timeout to 1 second
+      max-lifetime: 30000 # Set max lifetime for connections to 30 seconds
+      validation-timeout: 1000 # Set validation timeout to 1 second
 
   flyway:
     enabled: true
@@ -57,12 +107,46 @@ spring:
       file: docker-compose.dev.yml
       lifecycle-management: start_and_stop
 
+  # Caffeine Cache Configuration
+  cache:
+    type: caffeine
+
+# Resilience4j Circuit Breaker Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      createAccountCircuitBreaker:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5000
+      getAccountCircuitBreaker:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5000
+      accountsByCustomerNameCircuitBreaker:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5000
+  timelimiter:
+    instances:
+      getAccountTimeLimiter:
+        timeout-duration: 1s
+        cancel-running-future: true
+  retry:
+    instances:
+      getAccountRetry:
+        max-attempts: 3 # Number of retry attempts
+        wait-duration: 1s # Wait time between attempts
+
 logging:
   level:
-    root: DEBUG
-    com.roshlab.savings: DEBUG
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    root: INFO
+    com.roshlab.savings: INFO
+    org.hibernate.SQL: INFO
+#    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 # Nickname check feature
 feature:
@@ -71,3 +155,8 @@ feature:
 validation:
   nickname:
     file: nickname.txt
+
+springdoc:
+  swagger-ui:
+    url: /openapi.yaml # Points to openapi.yaml static file under resources/static/
+    disable-swagger-default-url: true # Prevent loading the default, empty API docs.

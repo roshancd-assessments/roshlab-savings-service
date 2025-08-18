@@ -1,10 +1,13 @@
 openapi: 3.0.3
 info:
   title: Savings Account API
+  description: API for managing savings accounts.
   version: 1.0.0
 paths:
   /accounts:
     post:
+      tags:
+        - Savings Accounts
       summary: Create a new savings account for a consumer
       requestBody:
         required: true
@@ -27,6 +30,8 @@ paths:
                 $ref: '#/components/schemas/Problem'
   /accounts/{id}:
     get:
+      tags:
+        - Savings Accounts
       summary: Get savings account details by ID
       parameters:
         - in: path
@@ -48,13 +53,13 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
-
 components:
   schemas:
     CreateAccountRequest:
       type: object
       required:
         - customerName
+        - accountNickName
       properties:
         customerName:
           type: string
@@ -70,15 +75,12 @@ components:
         id:
           type: integer
           format: int64
-        accountNumber:
-          type: string
         customerName:
+          type: string
+        accountNumber:
           type: string
         accountNickName:
           type: string
-        createdAt:
-          type: string
-          format: date-time
     Problem:
       type: object
       properties:

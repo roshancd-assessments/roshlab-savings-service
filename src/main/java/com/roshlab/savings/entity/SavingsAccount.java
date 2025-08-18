@@ -2,38 +2,35 @@ package com.roshlab.savings.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-@Getter
 @Entity
+@Data
 @Table(name = "savings_account")
-public class SavingsAccount {
+@NoArgsConstructor
+public class SavingsAccount implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     @Column(name = "account_number", nullable = false, unique = true)
     private String accountNumber;
 
-    @Setter
     @Column(name = "customer_name", nullable = false)
     private String customerName;
 
-    @Setter
     @Column(name = "account_nick_name", length = 30)
     private String accountNickName;
 
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private OffsetDateTime createdAt = OffsetDateTime.now();
-
-    // Use a no-args constructor for JPA only
-    public SavingsAccount() {
-    }
+    private OffsetDateTime createdAt;
 
     // Builder constructor for creating instances with an ID. This is for testing purposes.
     @Builder(builderMethodName = "builderWithId")
