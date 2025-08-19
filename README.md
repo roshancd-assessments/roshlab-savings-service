@@ -184,3 +184,5 @@ This checklist outlines the key steps to evolve this microservice into a product
 -   **GitHub Issues**: [issue tracker](https://github.com/roshancd-assessments/roshlab-savings-service/issues "null")
 
 -   **GitHub Actions Pipeline**: [CI/CD pipeline](https://github.com/roshancd-assessments/roshlab-savings-service/actions "null")
+
+-   **Built Container Image**: [Images](https://github.com/roshancd-assessments/roshlab-savings-service/pkgs/container/roshlab-savings-service "null")
