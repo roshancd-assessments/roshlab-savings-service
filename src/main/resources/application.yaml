@@ -6,6 +6,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/savings
     username: postgres
     password: postgres
+    driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 1000 # Set connection timeout to 1 second
       max-lifetime: 30000 # Set max lifetime for connections to 30 seconds
@@ -19,6 +20,9 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
   # Caffeine Cache Configuration
   cache:
@@ -69,8 +73,8 @@ validation:
 
 springdoc:
   swagger-ui:
-    url: /openapi.yaml # Points to openapi.yaml static file under resources/static/
-    disable-swagger-default-url: true # Prevent loading the default, empty API docs.
+    url: /openapi.yaml
+    disable-swagger-default-url: true
 
 ---
 spring:

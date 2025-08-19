@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # The main application service
+  savings-service:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # Use the 'prod' profile to connect to the external database
+      - SPRING_PROFILES_ACTIVE=prod
+      # Inject the database connection details
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/savings
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      # Tell Flyway to baseline an existing schema, resolving the startup error
+      - SPRING_FLYWAY_BASELINE_ON_MIGRATE=true
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # The PostgreSQL database service
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=savings
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      # Use a named volume to persist database data across container restarts
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d savings"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# Define the named volume for data persistence
+volumes:
+  postgres_data:
