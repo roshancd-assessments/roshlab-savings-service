@@ -185,4 +185,4 @@ This checklist outlines the key steps to evolve this microservice into a product
 
 -   **GitHub Actions Pipeline**: [CI/CD pipeline](https://github.com/roshancd-assessments/roshlab-savings-service/actions "null")
 
--   **Built Container Image**: [Images]([https://github.com/roshancd-assessments/roshlab-savings-service/actions "null"](https://github.com/roshancd-assessments/roshlab-savings-service/pkgs/container/roshlab-savings-service))
+-   **Built Container Image**: [Images](https://github.com/roshancd-assessments/roshlab-savings-service/pkgs/container/roshlab-savings-service "null")
