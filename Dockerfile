@@ -14,6 +14,9 @@ COPY config ./config
 # Copy the source code. This will invalidate the cache for this layer whenever a source file changes.
 COPY src ./src
 
+# Make the Gradle wrapper executable
+RUN chmod +x ./gradlew
+
 # Run the build, skipping tests as they are already run in the pipeline
 RUN ./gradlew clean build -x test
 
